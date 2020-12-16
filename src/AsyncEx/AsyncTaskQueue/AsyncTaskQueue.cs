@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Deefault.AsyncEx.AsyncTaskQueue
 {
-    public class AsyncTaskQueue
+    public class AsyncTaskQueue : IDisposable
     {
         private readonly int _poolSize;
         private readonly SemaphoreSlim _lock;
@@ -78,5 +78,10 @@ namespace Deefault.AsyncEx.AsyncTaskQueue
         }
 
         #endregion
+
+        public void Dispose()
+        {
+            _lock?.Dispose();
+        }
     }
 }

@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Deefault.AsyncEx.AsyncTaskQueue;
 using Xunit;
+// ReSharper disable ConvertToLocalFunction
+// ReSharper disable UnusedVariable
 
 namespace AsyncEx.Tests
 {
@@ -34,6 +36,19 @@ namespace AsyncEx.Tests
             var completedTask = queue.EnqueueAsync(taskFunc);
             
             Assert.True(completedTask.IsCompleted);
+        }
+        
+        [Fact]
+        public void Single_Task_Should_Await_In_Using_Block()
+        {
+            using (var queue = new AsyncTaskQueue())
+            {
+                Func<Task> taskFunc = () => Task.CompletedTask;
+
+                var completedTask = queue.EnqueueAsync(taskFunc);
+
+                Assert.True(completedTask.IsCompleted);
+            }
         }
         
         [Fact]
